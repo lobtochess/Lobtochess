@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>관리자 지휘실 — 죄악 오토체스</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="grain"></div>
+<header class="topbar">
+  <div class="brand-mark">L<span>·</span>C</div>
+  <div><p class="eyebrow">BUS MANAGEMENT SYSTEM / PROTOTYPE 0.13</p><h1>관리자 지휘실 <span>— 죄악 오토체스</span></h1></div>
+  <div class="top-status"><i></i> 단독 시뮬레이션</div>
+</header>
+<main class="layout">
+<section class="main-column">
+  <div class="mission-strip">
+    <div><span class="eyebrow">CURRENT OPERATION</span><strong id="roundLabel">작전 1 · 준비 단계</strong></div>
+    <div class="mission-objective"><span>목표</span> 적대 개체를 제압하고 다음 작전으로 이동하라.</div>
+    <div class="health"><span>관리자 체력</span><strong id="playerHp">♥ 20</strong></div>
+  </div>
+  <section class="panel progression">
+    <div class="level-block"><span class="eyebrow">MANAGER LEVEL</span><div class="level-number">LV.<b id="level">1</b></div><div class="xp-track"><i id="xpBar"></i></div><div class="xp-copy" id="xpText">경험치 0 / 4</div></div>
+    <div class="level-details"><div><span>현재 배치 한계</span><strong id="fieldCount">0 / 1</strong></div><div><span>다음 레벨</span><strong id="nextLevel">배치 한계 +1</strong></div></div>
+    <button id="levelBtn" class="button level-button">레벨업 ◈ <b>4</b></button>
+  </section>
+  <section class="panel board-panel">
+    <div class="section-heading"><div><span class="section-index">01</span><h2>전술 배치 구역</h2></div><div class="board-legend"><span class="legend-dot ally"></span> 아군 <span class="legend-dot enemy"></span> 적대 개체</div></div>
+    <p class="hint">대기 중인 수감자를 클릭해 선택하세요. 대기 구역에서 다른 수감자를 다시 클릭하면 순서를 바꿀 수 있고, 전투 전 적 배치와 체력·공격력을 확인할 수 있습니다. 선택한 아군을 다른 칸으로 옮기거나, 다른 아군이 있는 칸에 놓아 위치를 바꿀 수 있습니다.</p>
+    <div class="battlefield">
+      <div class="side-label enemy-label">HOSTILE ENTITIES <span>적대 개체 전선 · 상단</span></div>
+      <div id="enemyPreview" class="enemy-preview"><div class="empty-enemy">작전 개시 전 — 적대 개체의 출현을 기다리는 중</div></div>
+      <div class="side-label ally-label">LIMBUS COMPANY <span>수감자 전선 · 하단</span></div>
+      <div class="row-labels"><span>전열 · FRONTLINE</span><span>후열 · BACKLINE</span></div><div id="board" class="board"></div>
+    </div>
+    <div class="board-footer"><div class="synergy-line"><span class="eyebrow">활성 시너지 · 클릭해서 상세 확인</span><strong id="synergyText" role="button" tabindex="0">아직 공명 없음</strong><button id="synergyAllBtn" class="button tiny secondary synergy-all-btn">전체 시너지</button></div><div class="board-actions"><button id="clearBtn" class="button secondary">배치 초기화</button><button id="battleBtn" class="button primary">작전 개시 <span>→</span></button></div></div>
+  </section>
+  <section class="panel bench-panel"><div class="section-heading"><div><span class="section-index">02</span><h2>대기 중인 수감자</h2></div><span class="small-muted" id="benchCount">0 / 8</span></div><div id="bench" class="bench"></div></section>
+  <section class="panel battle-panel"><div class="section-heading"><div><span class="section-index">03</span><h2>전투 기록</h2></div><span class="small-muted">LIVE TRANSCRIPT</span></div><div id="battleLog" class="battle-log"><p class="muted-log">작전을 개시하면 전투 기록이 여기에 표시됩니다.</p></div></section>
+</section>
+<aside class="side-column">
+  <section class="panel manager-panel"><div class="section-heading"><div><span class="section-index">A</span><h2>관리자 자원</h2></div></div><div class="resource"><span>보유 코인</span><strong>◈ <b id="gold">10</b></strong></div><div class="resource"><span>라운드 이자</span><strong id="interest">◈ +1 / 라운드</strong></div><div class="resource"><span>작전 보상</span><strong id="reward">승리 시 +3</strong></div><div class="resource"><span>지휘 한계</span><strong id="fieldCountSide">1 명</strong></div><div class="divider"></div><p class="small-muted">코인을 사용해 레벨업하면 지휘 한계가 증가합니다. 승리 보상으로 다음 편성을 준비하세요.</p></section>
+  <section class="panel shop-panel"><div class="section-heading"><div><span class="section-index">B</span><h2>인격 모집</h2></div><div class="shop-controls"><button id="shopLockBtn" class="button tiny secondary" title="다음 라운드에도 현재 모집 목록 유지">🔓 라운드 갱신</button><button id="rerollBtn" class="button tiny secondary">갱신 ◈ 2</button></div></div><p class="hint">모집한 인격은 대기 구역으로 이동합니다. 동일 인격의 보유 한도에 도달하면 상점에 등장하지 않습니다.</p><div id="shop" class="shop"></div></section>
+  <section class="panel unit-info-panel"><div class="section-heading"><div><span class="section-index">C</span><h2>인격 정보</h2></div></div><div id="unitInfo" class="unit-info"><div class="empty-sigil">罪</div><p>유닛을 선택하면 능력과 전투 역할이 표시됩니다.</p></div></section>
+  <section class="panel rules-panel"><div class="section-heading"><div><span class="section-index">!</span><h2>간이 규칙</h2></div></div><ul><li>시작 시 관리자 레벨 1, 배치 한계 1명이며 첫 작전은 적 1기와 싸웁니다.</li><li>코인 4개로 레벨업하면 경험치가 오르고 레벨 2부터 배치 한계가 늘어납니다.</li><li>작전 승리 시 코인과 경험치를 얻습니다. 3라운드 간격으로 아이템 보상을 선택하며, 20라운드의 최종 적을 제압하면 다음 장으로 이동합니다.</li><li>캐릭터 초상화는 프로토타입용 오리지널 실루엣이며, 공식 일러스트는 포함하지 않았습니다.</li></ul></section>
+</aside>
+</main>
+<footer>FAN-MADE CONCEPT · 비공식 팬 프로젝트 · 원작의 공식 게임이 아닙니다.</footer><div id="toast" class="toast" role="status"></div><script src="game.js"></script>
+</body></html>
